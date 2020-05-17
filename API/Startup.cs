@@ -30,6 +30,15 @@ namespace API
             {
                 opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
             });
+            services.AddCors(opt =>
+            {
+                opt.AddPolicy("coarsPolicy", policy =>
+                 {
+                     policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000");
+                 });
+
+            }
+            );
             services.AddControllers();
 
         }
@@ -41,6 +50,8 @@ namespace API
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors("coarsPolicy");
 
             app.UseHttpsRedirection();
 
